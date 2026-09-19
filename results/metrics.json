@@ -1,0 +1,46 @@
+{
+    "mlp_FD001": {
+        "model_type": "mlp",
+        "dataset_id": "FD001",
+        "window_size": 30,
+        "max_rul": 125,
+        "parameters": 157569,
+        "train_time_sec": 20.72,
+        "test_mae": 9.23,
+        "test_rmse": 12.68,
+        "test_r2": 0.8999
+    },
+    "cnn1d_FD001": {
+        "model_type": "cnn1d",
+        "dataset_id": "FD001",
+        "window_size": 30,
+        "max_rul": 125,
+        "parameters": 41153,
+        "train_time_sec": 48.12,
+        "test_mae": 14.52,
+        "test_rmse": 19.37,
+        "test_r2": 0.7663
+    },
+    "lstm_FD001": {
+        "model_type": "lstm",
+        "dataset_id": "FD001",
+        "window_size": 30,
+        "max_rul": 125,
+        "parameters": 58241,
+        "train_time_sec": 72.08,
+        "test_mae": 9.55,
+        "test_rmse": 12.67,
+        "test_r2": 0.9
+    },
+    "transformer_FD001": {
+        "model_type": "transformer",
+        "dataset_id": "FD001",
+        "window_size": 30,
+        "max_rul": 125,
+        "parameters": 70081,
+        "train_time_sec": 180.28,
+        "test_mae": 9.98,
+        "test_rmse": 13.6,
+        "test_r2": 0.8848
+    }
+}
