@@ -5,10 +5,10 @@
 - **Member 1**: Mayurika Sathish [Reg. No.] — MLP Baseline & Feature Engineering Lead
 - **Member 2**: Sachith V P [Reg. No.] — 1D-CNN & Data Loader Lead
 - **Member 3**: Ishanvi Kaushik [Reg. No.] — LSTM Sequential Memory & Trajectory Lead
-- **Member 4**: Rishi Khandelwal [Reg. No.] — Transformer Encoder Attention & Evaluation Lead
+- **Member 4**: Rishi Khandelwal (RishiK1706) [Reg. No.] — Transformer Encoder Attention & Evaluation Lead
 
 **Title of the Project:** Comparative Analysis of MLP, 1D-CNN, LSTM, and Transformer Architectures for Predictive Maintenance and Remaining Useful Life Estimation of Industrial Machinery  
-**GitHub Repository Link:** [Insert Your GitHub Repository URL Here]
+**GitHub Repository Link:** https://github.com/RishiK1706/predictive-maintenance-cmapss
 
 ---
 

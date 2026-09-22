@@ -1,5 +1,7 @@
 # 🚀 ICT-4442 Deep Learning Mini Project: Team PR Workflow & Contribution Guide
 
+**Repository URL:** https://github.com/RishiK1706/predictive-maintenance-cmapss
+
 This guide explains how each team member submits their assigned model architecture via a GitHub Pull Request (PR) to establish clean, individual commit history on GitHub.
 
 ---
@@ -11,17 +13,17 @@ This guide explains how each team member submits their assigned model architectu
 | **Member 1** | Mayurika Sathish | **MLP Baseline (Fully-Connected)** | `src/models/mlp.py`<br>`notebooks/01_MLP_Baseline_Mayurika.ipynb` |
 | **Member 2** | Sachith V P | **1D-CNN (Convolutional Network)** | `src/models/cnn1d.py`<br>`notebooks/02_1D_CNN_Sachith.ipynb` |
 | **Member 3** | Ishanvi Kaushik | **Stacked LSTM (Recurrent/Sequential)** | `src/models/rnn.py`<br>`notebooks/03_LSTM_Sequential_Ishanvi.ipynb` |
-| **Member 4** | Rishi Khandelwal | **Transformer Encoder (Self-Attention)** | `src/models/transformer.py`<br>`src/train.py`<br>`src/evaluate.py`<br>`app.py`<br>`notebooks/04_Transformer_Encoder_Rishi.ipynb` |
+| **Member 4** | Rishi Khandelwal (RishiK1706) | **Transformer Encoder (Self-Attention)** | `src/models/transformer.py`<br>`src/train.py`<br>`src/evaluate.py`<br>`app.py`<br>`notebooks/04_Transformer_Encoder_Rishi.ipynb` |
 
 ---
 
 ## 📌 Step 1: Rishi Pushes Base Template to GitHub
 
-Rishi creates the repository `predictive-maintenance-cmapss` on GitHub, adds teammates as Collaborators, and pushes the base template:
+Rishi creates the repository `predictive-maintenance-cmapss` under `RishiK1706`, adds teammates as Collaborators, and pushes the base template:
 
 ```bash
 git branch -M main
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
+git remote add origin https://github.com/RishiK1706/predictive-maintenance-cmapss.git
 git push -u origin main
 ```
 
@@ -31,7 +33,7 @@ git push -u origin main
 
 1. Clone the repository on your laptop:
    ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
+   git clone https://github.com/RishiK1706/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
    git checkout -b feature/mlp-baseline
    ```
@@ -50,7 +52,7 @@ git push -u origin main
 
 1. Clone/pull the repository on your laptop:
    ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
+   git clone https://github.com/RishiK1706/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
    git checkout -b feature/1d-cnn-model
    ```
@@ -69,7 +71,7 @@ git push -u origin main
 
 1. Clone/pull the repository on your laptop:
    ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
+   git clone https://github.com/RishiK1706/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
    git checkout -b feature/lstm-model
    ```
