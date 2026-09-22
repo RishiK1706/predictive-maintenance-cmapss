@@ -1,0 +1,28 @@
+# Python & PyTorch cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Large dataset text files (users can download via Kaggle/script)
+data/*.txt
+data/*.pdf
+
+# Local backup folder for member PRs
+temp_member_files/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS generated
+Thumbs.db
+DS_Store
