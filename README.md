@@ -17,7 +17,7 @@ This project provides a systematic head-to-head comparison of four architectural
 ```mermaid
 flowchart TD
     subgraph Data Processing Pipeline
-        A["Raw C-MAPSS Sensor Data (FD001)<br>(100 Train Engines, 100 Test Engines)"] --> B["Constant Sensor Filtering<br>(Drop zero-variance s_1, s_5, s_10, s_16, s_18, s_19)"]
+        A["Raw C-MAPSS Sensor Data (FD001)<br>(100 Train Engines, 100 Test Engines)"] --> B["Constant Sensor Filtering<br>(Drop zero-variance s_1, s_5, s_10, s_16, s_18, s_19 → 15 features remain)"]
         B --> C["Engine-Wise Split<br>(80% Train / 20% Validation by Engine ID)"]
         C --> D["MinMax Feature Scaling<br>(Fitted strictly on 80 Train Engines)"]
         D --> E["Piecewise RUL Target Capping<br>(RUL_target = min(max_cycle - cycle, 125))"]
@@ -126,8 +126,8 @@ python run_all_experiments.py
 
 ### 3. Train & Evaluate an Individual Model
 ```bash
-# Train LSTM model
-python -m src.train --model lstm --epochs 25
+# Train LSTM model (Member 3: Ishanvi Kaushik — Phase 2 baseline config)
+python -m src.train --model lstm --dataset FD001 --window_size 30 --max_rul 125 --epochs 30 --batch_size 64 --lr 0.001
 
 # Evaluate Early Warning Alert states
 python -m src.evaluate lstm
@@ -137,3 +137,36 @@ python -m src.evaluate lstm
 ```bash
 streamlit run app.py
 ```
+
+---
+
+## Individual Member Notebooks
+
+| Member | Notebook | Architecture |
+|:---|:---|:---|
+| Mayurika Sathish | `notebooks/01_MLP_Baseline_Mayurika.ipynb` | MLP Baseline |
+| Sachith V P | `notebooks/02_1D_CNN_Sachith.ipynb` | 1D-CNN |
+| Ishanvi Kaushik | `notebooks/03_LSTM_Sequential_Ishanvi.ipynb` | Stacked LSTM |
+| Rishi Khandelwal | `notebooks/04_Transformer_Encoder_Rishi.ipynb` | Transformer Encoder |
+
+---
+
+## Individual Contributions
+
+### Ishanvi Kaushik (Member 3 — Stacked LSTM)
+
+Ishanvi Kaushik implemented and verified the recurrent RUL model (`src/models/rnn.py`), added
+recurrent-model shape tests and data pipeline verification tests (`tests/test_rnn.py`,
+`tests/test_preprocessing.py`), introduced deterministic training via `set_seed(42)` and
+gradient clipping (`max_norm=1.0`) to the shared training path (`src/train.py`), reproduced
+the FD001 LSTM baseline experiment (seed 42, 15 sensors, window=30, hidden=64, layers=2,
+dropout=0.2, AdamW lr=0.001, early stopping at epoch 21, best val RMSE=11.68 at epoch 11),
+and documented the model configuration and evaluation results
+(`results/lstm_phase2_metrics.json`, `figures/lstm_loss_curve.png`, `notebooks/03_LSTM_Sequential_Ishanvi.ipynb`).
+
+**Reproduced test results (FD001):** MAE=9.98 | RMSE=13.64 | R²=0.8842 | NASA Score=382.8
+**Early Warning Critical State F1-Score: 0.7857** — alert states are threshold-derived from
+predicted RUL (Normal > 50, Warning 20–50, Critical ≤ 20), no separate classifier head.
+Six constant sensors (s_1, s_5, s_10, s_16, s_18, s_19; std ≤ 1e-4) were removed.
+`s_6` has std=0.001389 and is **retained** as an informative feature, leaving **15 features**.
+Inter-layer dropout (p=0.2) is applied between the two stacked LSTM layers — this is **not** recurrent dropout.
