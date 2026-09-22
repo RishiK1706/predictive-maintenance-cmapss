@@ -1,154 +1,109 @@
-# 🚀 ICT-4442 Deep Learning Mini Project: Team Guide & Git PR Workflow
+# 🚀 ICT-4442 Deep Learning Mini Project: Team PR Workflow & Contribution Guide
 
-Welcome to our project repository! This guide explains our project structure, assigned roles, step-by-step instructions for submitting your code via GitHub Pull Requests (PRs), and viva defense preparation.
+This guide explains how each team member submits their assigned model architecture via a GitHub Pull Request (PR) to establish clean, individual commit history on GitHub.
 
 ---
 
-## 👥 Team Member Roles & Assigned Architecture Families
-
-Each team member owns a distinct model architecture family as required by course guidelines:
+## 👥 Team Member Roles & Model Ownership
 
 | Member | Name | Assigned Model Family | Key Files Owned |
 | :--- | :--- | :--- | :--- |
 | **Member 1** | Mayurika Sathish | **MLP Baseline (Fully-Connected)** | `src/models/mlp.py`<br>`notebooks/01_MLP_Baseline_Mayurika.ipynb` |
-| **Member 2** | Sachith V P | **1D-CNN (Convolutional Network)** | `src/models/cnn1d.py`<br>`src/data_loader.py`<br>`notebooks/02_1D_CNN_Sachith.ipynb` |
-| **Member 3** | Ishanvi Kaushik | **Stacked LSTM (Recurrent/Sequential)** | `src/models/rnn.py`<br>`src/dataset.py`<br>`notebooks/03_LSTM_Sequential_Ishanvi.ipynb` |
-| **Member 4** | Rishi Khandelwal | **Transformer Encoder (Self-Attention)** | `src/models/transformer.py`<br>`src/evaluate.py`<br>`app.py`<br>`notebooks/04_Transformer_Encoder_Rishi.ipynb` |
+| **Member 2** | Sachith V P | **1D-CNN (Convolutional Network)** | `src/models/cnn1d.py`<br>`notebooks/02_1D_CNN_Sachith.ipynb` |
+| **Member 3** | Ishanvi Kaushik | **Stacked LSTM (Recurrent/Sequential)** | `src/models/rnn.py`<br>`notebooks/03_LSTM_Sequential_Ishanvi.ipynb` |
+| **Member 4** | Rishi Khandelwal | **Transformer Encoder (Self-Attention)** | `src/models/transformer.py`<br>`src/train.py`<br>`src/evaluate.py`<br>`app.py`<br>`notebooks/04_Transformer_Encoder_Rishi.ipynb` |
 
 ---
 
-## 🛠️ Step-by-Step GitHub Branch & Pull Request (PR) Guide
+## 📌 Step 1: Rishi Pushes Base Template to GitHub
 
-To demonstrate clear individual contributions to faculty evaluators, we use the **Feature Branch + Pull Request (PR)** workflow.
+Rishi creates the repository `predictive-maintenance-cmapss` on GitHub, adds teammates as Collaborators, and pushes the base template:
 
-### 📌 Instructions for Member 1: Mayurika Sathish (MLP Baseline)
+```bash
+git branch -M main
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
+git push -u origin main
+```
 
-1. Open your terminal and clone the repository:
+---
+
+## 📌 Step 2: Member 1 - Mayurika Sathish (MLP Baseline PR)
+
+1. Clone the repository on your laptop:
    ```bash
    git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
-   ```
-2. Create and switch to your feature branch:
-   ```bash
    git checkout -b feature/mlp-baseline
    ```
-3. Add your assigned code files and commit:
+2. Copy `mlp.py` into `src/models/` and `01_MLP_Baseline_Mayurika.ipynb` into `notebooks/`.
+3. Commit and push:
    ```bash
    git add src/models/mlp.py notebooks/01_MLP_Baseline_Mayurika.ipynb
-   git commit -m "feat: Implement MLP baseline architecture and feature engineering (Mayurika Sathish)"
-   ```
-4. Push your branch to GitHub:
-   ```bash
+   git commit -m "feat: Add MLP baseline architecture and notebook (Mayurika Sathish)"
    git push origin feature/mlp-baseline
    ```
-5. **Open Pull Request on GitHub.com**:
-   * Open the repository link in your browser.
-   * Click the green **"Compare & pull request"** button.
-   * Title: `feat: Add MLP Baseline Model - Mayurika Sathish`
-   * Click **"Create pull request"**, then click **"Merge pull request"**.
+4. **On GitHub.com**: Click **"Compare & pull request"** $\rightarrow$ **"Create pull request"** $\rightarrow$ **"Merge pull request"**.
 
 ---
 
-### 📌 Instructions for Member 2: Sachith V P (1D-CNN)
+## 📌 Step 3: Member 2 - Sachith V P (1D-CNN PR)
 
-1. Open your terminal and clone/pull the repository:
+1. Clone/pull the repository on your laptop:
    ```bash
    git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
-   ```
-2. Create and switch to your feature branch:
-   ```bash
    git checkout -b feature/1d-cnn-model
    ```
-3. Add your assigned code files and commit:
+2. Copy `cnn1d.py` into `src/models/` and `02_1D_CNN_Sachith.ipynb` into `notebooks/`.
+3. Commit and push:
    ```bash
-   git add src/models/cnn1d.py src/data_loader.py notebooks/02_1D_CNN_Sachith.ipynb
-   git commit -m "feat: Implement 1D-CNN architecture, data loader, and EDA plots (Sachith V P)"
-   ```
-4. Push your branch to GitHub:
-   ```bash
+   git add src/models/cnn1d.py notebooks/02_1D_CNN_Sachith.ipynb
+   git commit -m "feat: Add 1D-CNN model architecture and notebook (Sachith V P)"
    git push origin feature/1d-cnn-model
    ```
-5. **Open Pull Request on GitHub.com**:
-   * Open the repository link in your browser.
-   * Click the green **"Compare & pull request"** button.
-   * Title: `feat: Add 1D-CNN Model & Data Loader - Sachith V P`
-   * Click **"Create pull request"**, then click **"Merge pull request"**.
+4. **On GitHub.com**: Click **"Compare & pull request"** $\rightarrow$ **"Create pull request"** $\rightarrow$ **"Merge pull request"**.
 
 ---
 
-### 📌 Instructions for Member 3: Ishanvi Kaushik (Stacked LSTM)
+## 📌 Step 4: Member 3 - Ishanvi Kaushik (Stacked LSTM PR)
 
-1. Open your terminal and clone/pull the repository:
+1. Clone/pull the repository on your laptop:
    ```bash
    git clone https://github.com/YOUR_GITHUB_USERNAME/predictive-maintenance-cmapss.git
    cd predictive-maintenance-cmapss
-   ```
-2. Create and switch to your feature branch:
-   ```bash
    git checkout -b feature/lstm-model
    ```
-3. Add your assigned code files and commit:
+2. Copy `rnn.py` into `src/models/` and `03_LSTM_Sequential_Ishanvi.ipynb` into `notebooks/`.
+3. Commit and push:
    ```bash
-   git add src/models/rnn.py src/dataset.py notebooks/03_LSTM_Sequential_Ishanvi.ipynb
-   git commit -m "feat: Implement Stacked LSTM sequence architecture and PyTorch dataset (Ishanvi Kaushik)"
-   ```
-4. Push your branch to GitHub:
-   ```bash
+   git add src/models/rnn.py notebooks/03_LSTM_Sequential_Ishanvi.ipynb
+   git commit -m "feat: Add Stacked LSTM sequence architecture and notebook (Ishanvi Kaushik)"
    git push origin feature/lstm-model
    ```
-5. **Open Pull Request on GitHub.com**:
-   * Open the repository link in your browser.
-   * Click the green **"Compare & pull request"** button.
-   * Title: `feat: Add Stacked LSTM Model & Dataset Loader - Ishanvi Kaushik`
-   * Click **"Create pull request"**, then click **"Merge pull request"**.
+4. **On GitHub.com**: Click **"Compare & pull request"** $\rightarrow$ **"Create pull request"** $\rightarrow$ **"Merge pull request"**.
 
 ---
 
-### 📌 Instructions for Member 4: Rishi Khandelwal (Transformer Encoder)
+## 📌 Step 5: Member 4 - Rishi Khandelwal (Transformer Encoder PR)
 
-1. Create and switch to your feature branch:
+1. Create and switch to your branch:
    ```bash
    git checkout -b feature/transformer-model
    ```
-2. Add your assigned code files and commit:
+2. Copy `transformer.py` into `src/models/`, `train.py` & `evaluate.py` into `src/`, `app.py` into root, and `04_Transformer_Encoder_Rishi.ipynb` into `notebooks/`.
+3. Commit and push:
    ```bash
-   git add src/models/transformer.py src/evaluate.py app.py notebooks/04_Transformer_Encoder_Rishi.ipynb
-   git commit -m "feat: Implement Transformer Encoder architecture and evaluation pipeline (Rishi Khandelwal)"
-   ```
-3. Push your branch to GitHub:
-   ```bash
+   git add src/models/transformer.py src/train.py src/evaluate.py app.py notebooks/04_Transformer_Encoder_Rishi.ipynb
+   git commit -m "feat: Add Transformer Encoder, evaluation pipeline, Streamlit app, and notebook (Rishi Khandelwal)"
    git push origin feature/transformer-model
    ```
-4. **Open Pull Request on GitHub.com**:
-   * Click **"Compare & pull request"** $\rightarrow$ **"Create pull request"** $\rightarrow$ **"Merge pull request"**.
+4. **On GitHub.com**: Click **"Compare & pull request"** $\rightarrow$ **"Create pull request"** $\rightarrow$ **"Merge pull request"**.
 
 ---
 
-## 🎤 Viva Presentation & Defense Cheat Sheet
+## 🎤 Viva Defense Cheat Sheet
 
-During the in-class presentation, faculty question each member individually on their model. Here is what to highlight:
-
-* **Mayurika Sathish (MLP)**:
-  - *Key Point*: Explains flattening 30-cycle $\times$ 15-sensor sliding window into a 1D vector fed into 3 dense layers. Achieved the lowest MAE (8.92 cycles) and fast inference (50.2s).
-* **Sachith V P (1D-CNN)**:
-  - *Key Point*: Explains 1D temporal convolutions (`Conv1D`) extracting localized temporal degradation features across sensors. Most parameter-efficient model (only 41,153 params).
-* **Ishanvi Kaushik (LSTM)**:
-  - *Key Point*: Explains stacked 2-layer LSTM gating mechanism (forget, input, output gates) capturing sequential degradation trajectory. Achieved highest Critical Failure Alert F1-Score (0.8667).
-* **Rishi Khandelwal (Transformer Encoder)**:
-  - *Key Point*: Explains Multi-Head Self-Attention (MHSA) and Positional Encoding capturing global time-step dependencies without temporal recurrence.
-
----
-
-## 💻 Running Code & Web Dashboard
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run complete benchmark
-python run_all_experiments.py
-
-# Launch Streamlit Web Dashboard
-streamlit run app.py
-```
+* **Mayurika Sathish (MLP)**: Explains 3-layer Dense network, flattening 30x15 windows, achieving lowest MAE (8.92 cycles).
+* **Sachith V P (1D-CNN)**: Explains 1D spatial-temporal convolutions (`Conv1D`) extracting local features with 41,153 parameters.
+* **Ishanvi Kaushik (LSTM)**: Explains 2-layer Stacked LSTM gating units capturing sequential degradation trajectory with highest Critical Alert F1 (0.8667).
+* **Rishi Khandelwal (Transformer Encoder)**: Explains Multi-Head Self-Attention (MHSA) and Positional Encoding capturing long-term dependencies.
