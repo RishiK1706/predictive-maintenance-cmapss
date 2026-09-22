@@ -11,10 +11,6 @@ env/
 venv/
 ENV/
 
-# Large dataset text files (users can download via Kaggle/script)
-data/*.txt
-data/*.pdf
-
 # Local backup folder for member PRs
 temp_member_files/
 
