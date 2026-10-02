@@ -16,27 +16,30 @@ This project provides a systematic head-to-head comparison of four architectural
 
 ```mermaid
 flowchart TD
-    subgraph Data Processing Pipeline (Member 2: Sachith V P)
-        A["Raw C-MAPSS Sensor Data (FD001)<br>(100 Train Engines, 100 Test Engines)"] --> B["Constant Sensor Filtering<br>(Drop zero-variance s_1, s_5, s_10, s_16, s_18, s_19)"]
+    subgraph Data_Pipeline ["Data Processing Pipeline (Member 2: Sachith V P)"]
+        A["Raw C-MAPSS Sensor Data FD001<br>(100 Train Engines, 100 Test Engines)"] --> B["Constant Sensor Filtering<br>(Drop zero-variance s_1, s_5, s_10, s_16, s_18, s_19)"]
         B --> C["Engine-Wise Split<br>(80% Train / 20% Validation by Engine ID)"]
         C --> D["MinMax Feature Scaling<br>(Fitted strictly on 80 Train Engines)"]
         D --> E["Piecewise RUL Target Capping<br>(RUL_target = min(max_cycle - cycle, 125))"]
-        E --> F["Sliding Window Sequence Generator<br>(Input Shape: N × 30 cycles × 15 sensors)"]
+        E --> F["Sliding Window Sequence Generator<br>(Input Shape: N x 30 cycles x 15 sensors)"]
     end
 
-    subgraph Deep Learning Architecture Comparison (PR Feature Branches)
+    subgraph Model_Comparison ["Deep Learning Architecture Comparison (PR Feature Branches)"]
         F --> G1["Member 1: MLP Baseline<br>(src/models/mlp.py - Mayurika Sathish)"]
         F --> G2["Member 2: 1D-CNN<br>(src/models/cnn1d.py - Sachith V P)"]
         F --> G3["Member 3: Stacked LSTM<br>(src/models/rnn.py - Ishanvi Kaushik)"]
         F --> G4["Member 4: Transformer Encoder<br>(src/models/transformer.py - Rishi Khandelwal)"]
     end
 
-    subgraph Evaluation & Operational Alert System (Member 3 & 4)
-        G1 & G2 & G3 & G4 --> H["Continuous RUL Regression<br>(MAE, RMSE, R², NASA Score)"]
+    subgraph Alert_System ["Evaluation & Operational Alert System (Member 3 & 4)"]
+        G1 --> H["Continuous RUL Regression<br>(MAE, RMSE, R2, NASA Score)"]
+        G2 --> H
+        G3 --> H
+        G4 --> H
         H --> I["Early Warning Alert Classification Layer"]
         I --> J1["Normal State (RUL > 50 cycles)"]
-        I --> J2["Warning State (20 < RUL ≤ 50 cycles)"]
-        I --> J3["Critical State (RUL ≤ 20 cycles)"]
+        I --> J2["Warning State (20 < RUL <= 50 cycles)"]
+        I --> J3["Critical State (RUL <= 20 cycles)"]
         I --> K["Interactive Streamlit Dashboard (app.py)"]
     end
 ```
@@ -60,7 +63,7 @@ According to course guidelines (ICT-4442 Deep Learning Mini Project), each team 
 
 All four model architectures were evaluated on identical test trajectories:
 
-| Model Architecture | Owner / Member | Test MAE | Test RMSE | Test R² | NASA Score | Early Warning Macro F1 | Critical State F1 | Parameter Count | Train Time (s) |
+| Model Architecture | Owner / Member | Test MAE | Test RMSE | Test R2 | NASA Score | Early Warning Macro F1 | Critical State F1 | Parameter Count | Train Time (s) |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **MLP Baseline** | Mayurika Sathish | **8.92** | **12.13** | **0.9083** | **267.4** | 0.8604 | 0.8387 | 157,569 | 50.2 s |
 | **Stacked LSTM** | Ishanvi Kaushik | 9.60 | 13.24 | 0.8908 | 334.2 | **0.8428** | **0.8667** | 58,241 | 64.4 s |
@@ -69,7 +72,7 @@ All four model architectures were evaluated on identical test trajectories:
 
 ### Key Empirical Findings:
 1. **Best Operational Reliability**: **LSTM** achieved the highest Critical Failure Alert F1-Score (**0.8667**), demonstrating superior stability for sequential degradation trends without false alarms.
-2. **Best Regression Accuracy**: **MLP Baseline** achieved the lowest MAE (**8.92 cycles**) and highest R² (**0.9083**), fitting flattened tabular windows effectively.
+2. **Best Regression Accuracy**: **MLP Baseline** achieved the lowest MAE (**8.92 cycles**) and highest R2 (**0.9083**), fitting flattened tabular windows effectively.
 3. **Parameter Efficiency**: **1D-CNN** required only **41,153 parameters** (3.8x fewer parameters than MLP), making it ideal for edge device deployment.
 
 ---
