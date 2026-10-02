@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import random
 import time
 import numpy as np
 import torch
@@ -21,6 +22,21 @@ from src.models.mlp import MLPBaseline
 from src.models.cnn1d import CNN1DModel
 from src.models.rnn import RNNModel
 from src.models.transformer import TransformerModel
+
+
+def set_seed(seed: int = 42) -> None:
+    """
+    Set random seeds for full reproducibility across Python, NumPy, and PyTorch.
+    Added by Ishanvi Kaushik (Member 3) as a training safeguard.
+
+    Args:
+        seed: Integer random seed (default: 42).
+    """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
 def compute_nasa_score(y_true, y_pred):
@@ -79,6 +95,10 @@ def train_model(
 ):
     os.makedirs(save_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # Deterministic seed — Ishanvi Kaushik (Member 3)
+    set_seed(42)
+
     print(f"--- Training {model_type.upper()} on {dataset_id} (Device: {device}) ---")
 
     # 1. Load Data
@@ -117,6 +137,7 @@ def train_model(
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=3)
 
     best_val_loss = float("inf")
+    best_epoch = 1
     patience_counter = 0
     checkpoint_path = os.path.join(save_dir, f"{model_type}_{dataset_id}_best.pt")
 
@@ -131,6 +152,9 @@ def train_model(
             preds = model(X_b)
             loss = criterion(preds, y_b)
             loss.backward()
+            # Gradient clipping — prevents exploding gradients in LSTM/Transformer
+            # Added by Ishanvi Kaushik (Member 3)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
             train_losses.append(loss.item())
 
@@ -154,6 +178,7 @@ def train_model(
 
         if val_mse < best_val_loss:
             best_val_loss = val_mse
+            best_epoch = epoch
             patience_counter = 0
             torch.save(model.state_dict(), checkpoint_path)
         else:
@@ -190,6 +215,9 @@ def train_model(
         "max_rul": max_rul,
         "parameters": n_params,
         "train_time_sec": round(total_time, 2),
+        # Best epoch tracking — Ishanvi Kaushik (Member 3)
+        "best_epoch": best_epoch,
+        "best_val_rmse": round(float(np.sqrt(best_val_loss)), 2),
         "test_mae": round(test_mae, 2),
         "test_rmse": round(test_rmse, 2),
         "test_r2": round(test_r2, 4),

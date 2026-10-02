@@ -1,0 +1,73 @@
+{
+    "lstm_FD001": {
+        "_comment": "Reproducible LSTM baseline — Ishanvi Kaushik (Member 3)",
+        "experiment_config": {
+            "random_seed": 42,
+            "dataset": "FD001",
+            "model_type": "lstm",
+            "rnn_cell": "Unidirectional LSTM (batch_first=True)",
+            "window_size": 30,
+            "max_rul_cap": 125,
+            "n_informative_features": 15,
+            "selected_features": [
+                "s_2", "s_3", "s_4", "s_6", "s_7", "s_8", "s_9",
+                "s_11", "s_12", "s_13", "s_14", "s_15", "s_17", "s_20", "s_21"
+            ],
+            "dropped_constant_sensors": ["s_1", "s_5", "s_10", "s_16", "s_18", "s_19"],
+            "drop_threshold": "std <= 1e-4 (near-zero variance across all training engines)",
+            "note_s6": "s_6 has std=0.001389 in FD001 and is retained as informative",
+            "train_engines": 80,
+            "val_engines": 20,
+            "hidden_size": 64,
+            "num_layers": 2,
+            "dropout": 0.2,
+            "dropout_type": "inter-layer (between stacked LSTM layers, not recurrent dropout)",
+            "dense_head": "Linear(64->32) -> ReLU -> Dropout(0.2) -> Linear(32->1)",
+            "total_parameters": 56129,
+            "batch_size": 64,
+            "learning_rate": 0.001,
+            "optimizer": "AdamW",
+            "weight_decay": 0.0001,
+            "loss_function": "MSELoss",
+            "max_epochs": 30,
+            "early_stopping_patience": 10,
+            "gradient_clip_max_norm": 1.0,
+            "train_command": "python -m src.train --model lstm --dataset FD001 --window_size 30 --max_rul 125 --epochs 30 --batch_size 64 --lr 0.001"
+        },
+        "training_results": {
+            "best_epoch": 11,
+            "best_val_rmse": 11.68,
+            "early_stopping_epoch": 21,
+            "parameters": 56129,
+            "train_time_sec": 80.29
+        },
+        "test_metrics": {
+            "test_mae": 9.98,
+            "test_rmse": 13.64,
+            "test_r2": 0.8842,
+            "nasa_score": 382.8
+        },
+        "early_warning_classification": {
+            "thresholds": {
+                "normal": "Predicted RUL > 50 cycles",
+                "warning": "20 < Predicted RUL <= 50 cycles",
+                "critical": "Predicted RUL <= 20 cycles"
+            },
+            "note": "Alert states are threshold-derived from predicted RUL. No separate classifier head was trained.",
+            "f1_macro": 0.8171,
+            "f1_critical": 0.7857,
+            "overall_accuracy": 0.89,
+            "confusion_matrix": [
+                [65, 2, 0],
+                [3, 13, 1],
+                [0, 5, 11]
+            ],
+            "confusion_matrix_labels": ["Normal", "Warning", "Critical"],
+            "classification_report": {
+                "Normal":   {"precision": 0.96, "recall": 0.97, "f1": 0.96, "support": 67},
+                "Warning":  {"precision": 0.65, "recall": 0.76, "f1": 0.70, "support": 17},
+                "Critical": {"precision": 0.92, "recall": 0.69, "f1": 0.79, "support": 16}
+            }
+        }
+    }
+}
