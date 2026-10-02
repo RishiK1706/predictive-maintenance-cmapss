@@ -14,6 +14,9 @@ ENV/
 # Local backup folder for member PRs
 temp_member_files/
 
+# Academic report draft files (submitted directly via MS Forms)
+report/
+
 # IDEs
 .vscode/
 .idea/
