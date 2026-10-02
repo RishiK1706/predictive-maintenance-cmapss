@@ -16,7 +16,7 @@ This project provides a systematic head-to-head comparison of four architectural
 
 ```mermaid
 flowchart TD
-    subgraph Data Processing Pipeline
+    subgraph Data Processing Pipeline (Member 2: Sachith V P)
         A["Raw C-MAPSS Sensor Data (FD001)<br>(100 Train Engines, 100 Test Engines)"] --> B["Constant Sensor Filtering<br>(Drop zero-variance s_1, s_5, s_10, s_16, s_18, s_19)"]
         B --> C["Engine-Wise Split<br>(80% Train / 20% Validation by Engine ID)"]
         C --> D["MinMax Feature Scaling<br>(Fitted strictly on 80 Train Engines)"]
@@ -24,14 +24,14 @@ flowchart TD
         E --> F["Sliding Window Sequence Generator<br>(Input Shape: N × 30 cycles × 15 sensors)"]
     end
 
-    subgraph Deep Learning Architecture Comparison
-        F --> G1["Member 1: MLP Baseline<br>(3 Dense Layers + BatchNorm + Dropout)"]
-        F --> G2["Member 2: 1D-CNN<br>(3 Conv1D Layers + MaxPool + AvgPool)"]
-        F --> G3["Member 3: Stacked LSTM<br>(2-Layer LSTM + Recurrent Dropout)"]
-        F --> G4["Member 4: Transformer Encoder<br>(Multi-Head Self-Attention + Positional Encoding)"]
+    subgraph Deep Learning Architecture Comparison (PR Feature Branches)
+        F --> G1["Member 1: MLP Baseline<br>(src/models/mlp.py - Mayurika Sathish)"]
+        F --> G2["Member 2: 1D-CNN<br>(src/models/cnn1d.py - Sachith V P)"]
+        F --> G3["Member 3: Stacked LSTM<br>(src/models/rnn.py - Ishanvi Kaushik)"]
+        F --> G4["Member 4: Transformer Encoder<br>(src/models/transformer.py - Rishi Khandelwal)"]
     end
 
-    subgraph Evaluation & Operational Alert System
+    subgraph Evaluation & Operational Alert System (Member 3 & 4)
         G1 & G2 & G3 & G4 --> H["Continuous RUL Regression<br>(MAE, RMSE, R², NASA Score)"]
         H --> I["Early Warning Alert Classification Layer"]
         I --> J1["Normal State (RUL > 50 cycles)"]
@@ -49,10 +49,10 @@ According to course guidelines (ICT-4442 Deep Learning Mini Project), each team 
 
 | Team Member | Role | Assigned Architecture Family | Key Responsibilities & Code Modules |
 | :--- | :--- | :--- | :--- |
-| **Mayurika Sathish** | Member 1 | **MLP Baseline (Fully-Connected)** | Feature variance analysis & constant sensor dropping, src/models/mlp.py implementation, Dense layer dimension & dropout hyperparameter tuning, Phase 1 Synopsis lead author |
-| **Sachith V P** | Member 2 | **1D-CNN (Convolutional Network)** | Sliding window sequence generator (src/data_loader.py), src/models/cnn1d.py Conv1D architecture design, Kernel size & spatial feature map optimization, Exploratory Data Analysis (notebooks/eda_and_plots.py) |
-| **Ishanvi Kaushik** | Member 3 | **Stacked LSTM (Recurrent/Sequential)** | Engine-wise train/val split logic (leakage prevention), src/models/rnn.py stacked LSTM implementation, Recurrent dropout & sequence hidden state pooling, Early warning operational alert classification metrics |
-| **Rishi Khandelwal** | Member 4 | **Transformer Encoder (Self-Attention)** | PyTorch Dataset & DataLoader module (src/dataset.py), src/models/transformer.py Multi-Head Attention design, Unified trainer (src/train.py) & evaluator (src/evaluate.py), Interactive Streamlit dashboard (app.py) & Phase 2 report |
+| **Mayurika Sathish** | Member 1 | **MLP Baseline (Fully-Connected)** | Feature variance analysis, `src/models/mlp.py` implementation, Dense layer dimension & dropout hyperparameter tuning, `notebooks/01_MLP_Baseline_Mayurika.ipynb` |
+| **Sachith V P** | Member 2 | **1D-CNN (Convolutional Network)** | Sliding window sequence generator (`src/data_loader.py`), `src/models/cnn1d.py` Conv1D architecture design, Kernel size & spatial feature map optimization, EDA degradation plots (`notebooks/eda_and_plots.py`), `notebooks/02_1D_CNN_Sachith.ipynb` |
+| **Ishanvi Kaushik** | Member 3 | **Stacked LSTM (Recurrent/Sequential)** | Engine-wise train/val split logic (leakage prevention), `src/models/rnn.py` stacked LSTM implementation, PyTorch dataset wrapper (`src/dataset.py`), Early warning operational alert classification metrics, `notebooks/03_LSTM_Sequential_Ishanvi.ipynb` |
+| **Rishi Khandelwal** | Member 4 | **Transformer Encoder (Self-Attention)** | `src/models/transformer.py` Multi-Head Attention design, Unified trainer (`src/train.py`) & evaluator (`src/evaluate.py`), Interactive Streamlit dashboard (`app.py`), `notebooks/04_Transformer_Encoder_Rishi.ipynb` |
 
 ---
 
@@ -83,26 +83,26 @@ All four model architectures were evaluated on identical test trajectories:
 │   ├── actual_vs_predicted_comparison.png
 │   ├── sensor_degradation_FD001.png
 │   └── engine_life_distribution_FD001.png
-├── notebooks/                  # Exploratory & visualization scripts
+├── notebooks/                  # Exploratory & member notebooks
+│   ├── 01_MLP_Baseline_Mayurika.ipynb
+│   ├── 02_1D_CNN_Sachith.ipynb
+│   ├── 03_LSTM_Sequential_Ishanvi.ipynb
+│   ├── 04_Transformer_Encoder_Rishi.ipynb
 │   ├── eda_and_plots.py
 │   └── generate_summary_table.py
-├── report/                     # Course academic submission documents
-│   ├── Phase1_Synopsis_ICT4442.md
-│   ├── Phase2_Interim_ICT4442.md
-│   └── GitHub_Collaboration_Guide.md
 ├── results/                    # Model weights (.pt) and JSON/CSV metrics
 │   ├── model_comparison_table.csv
 │   └── metrics.json
 ├── src/                        # Core Python package
-│   ├── data_loader.py          # Data ingestion, engine split, MinMax scaling, sequence windowing
-│   ├── dataset.py              # PyTorch Dataset wrapper
+│   ├── data_loader.py          # Data ingestion, engine split, MinMax scaling, sequence windowing (Sachith V P)
+│   ├── dataset.py              # PyTorch Dataset wrapper (Ishanvi Kaushik)
 │   ├── models/                 # Neural network architectures
-│   │   ├── mlp.py              # Member 1: Multi-Layer Perceptron
-│   │   ├── cnn1d.py            # Member 2: 1D Convolutional Neural Network
-│   │   ├── rnn.py              # Member 3: Stacked LSTM / GRU
-│   │   └── transformer.py      # Member 4: Transformer Encoder (Self-Attention)
-│   ├── train.py                # Unified model training & validation pipeline
-│   └── evaluate.py             # Evaluation & Early Warning alert classification
+│   │   ├── mlp.py              # Member 1: Multi-Layer Perceptron (Mayurika Sathish)
+│   │   ├── cnn1d.py            # Member 2: 1D Convolutional Neural Network (Sachith V P)
+│   │   ├── rnn.py              # Member 3: Stacked LSTM / GRU (Ishanvi Kaushik)
+│   │   └── transformer.py      # Member 4: Transformer Encoder (Rishi Khandelwal)
+│   ├── train.py                # Unified model training & validation pipeline (Rishi Khandelwal)
+│   └── evaluate.py             # Evaluation & Early Warning alert classification (Rishi Khandelwal)
 ├── app.py                      # Streamlit interactive web dashboard
 ├── requirements.txt            # Dependencies
 └── run_all_experiments.py      # Master benchmark execution script
