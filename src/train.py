@@ -92,7 +92,10 @@ def train_model(
     lr=1e-3,
     patience=10,
     save_dir="results",
+    data_dir="data",
 ):
+    if not os.path.exists(save_dir) and os.path.exists(os.path.join("..", save_dir)):
+        save_dir = os.path.join("..", save_dir)
     os.makedirs(save_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -102,7 +105,7 @@ def train_model(
     print(f"--- Training {model_type.upper()} on {dataset_id} (Device: {device}) ---")
 
     # 1. Load Data
-    train_df, test_df, rul_df = load_raw_data(dataset_id=dataset_id)
+    train_df, test_df, rul_df = load_raw_data(dataset_id=dataset_id, data_dir=data_dir)
 
     # 2. RUL Label Construction & Feature Selection
     train_df = add_piecewise_rul(train_df, max_rul=max_rul)
@@ -143,6 +146,9 @@ def train_model(
 
     start_time = time.time()
 
+    train_losses_history = []
+    val_losses_history = []
+
     for epoch in range(1, epochs + 1):
         model.train()
         train_losses = []
@@ -158,7 +164,8 @@ def train_model(
             optimizer.step()
             train_losses.append(loss.item())
 
-        train_mse = np.mean(train_losses)
+        train_mse = float(np.mean(train_losses))
+        train_losses_history.append(train_mse)
 
         # Validation Loop
         model.eval()
@@ -173,7 +180,8 @@ def train_model(
                 val_preds_list.extend(preds.cpu().numpy())
                 val_targets_list.extend(y_b.cpu().numpy())
 
-        val_mse = np.mean(val_losses)
+        val_mse = float(np.mean(val_losses))
+        val_losses_history.append(val_mse)
         scheduler.step(val_mse)
 
         if val_mse < best_val_loss:
@@ -208,7 +216,7 @@ def train_model(
     test_mae, test_rmse, test_r2, test_nasa = calculate_metrics(np.array(test_targets_list), np.array(test_preds_list))
     print(f"\n>>> FINAL TEST RESULTS [{model_type.upper()}]: MAE = {test_mae:.2f} | RMSE = {test_rmse:.2f} | R2 = {test_r2:.4f} | NASA Score = {test_nasa:.1f} | Time = {total_time:.2f}s <<<\n")
 
-    results = {
+    summary_results = {
         "model_type": model_type,
         "dataset_id": dataset_id,
         "window_size": window_size,
@@ -233,11 +241,17 @@ def train_model(
         except Exception:
             all_metrics = {}
 
-    all_metrics[f"{model_type}_{dataset_id}"] = results
+    all_metrics[f"{model_type}_{dataset_id}"] = summary_results
     with open(metrics_file, "w") as f:
         json.dump(all_metrics, f, indent=4)
 
-    return results
+    return {
+        **summary_results,
+        "train_losses": train_losses_history,
+        "val_losses": val_losses_history,
+        "y_true": np.array(test_targets_list),
+        "y_pred": np.array(test_preds_list),
+    }
 
 
 if __name__ == "__main__":

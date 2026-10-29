@@ -56,6 +56,8 @@ def evaluate_early_warning(y_true, y_pred):
 
 
 def run_full_evaluation(model_type="mlp", dataset_id="FD001", window_size=30, max_rul=125, save_dir="results"):
+    if not os.path.exists(save_dir) and os.path.exists(os.path.join("..", save_dir)):
+        save_dir = os.path.join("..", save_dir)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     checkpoint_path = os.path.join(save_dir, f"{model_type}_{dataset_id}_best.pt")
 
