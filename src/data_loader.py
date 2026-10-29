@@ -18,6 +18,9 @@ def load_raw_data(dataset_id="FD001", data_dir="data"):
     """
     Load raw space-delimited C-MAPSS files into pandas DataFrames.
     """
+    if not os.path.exists(data_dir) and os.path.exists(os.path.join("..", data_dir)):
+        data_dir = os.path.join("..", data_dir)
+
     train_path = os.path.join(data_dir, f"train_{dataset_id}.txt")
     test_path = os.path.join(data_dir, f"test_{dataset_id}.txt")
     rul_path = os.path.join(data_dir, f"RUL_{dataset_id}.txt")
