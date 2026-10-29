@@ -26,11 +26,14 @@
         "dataset_id": "FD001",
         "window_size": 30,
         "max_rul": 125,
-        "parameters": 58241,
-        "train_time_sec": 72.08,
-        "test_mae": 9.55,
-        "test_rmse": 12.67,
-        "test_r2": 0.9
+        "parameters": 56129,
+        "train_time_sec": 71.93,
+        "best_epoch": 17,
+        "best_val_rmse": 11.78,
+        "test_mae": 10.08,
+        "test_rmse": 13.65,
+        "test_r2": 0.8839,
+        "nasa_score": 366.1
     },
     "transformer_FD001": {
         "model_type": "transformer",
