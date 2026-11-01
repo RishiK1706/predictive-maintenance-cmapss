@@ -5,10 +5,13 @@
         "window_size": 30,
         "max_rul": 125,
         "parameters": 157569,
-        "train_time_sec": 20.72,
-        "test_mae": 9.23,
-        "test_rmse": 12.68,
-        "test_r2": 0.8999
+        "train_time_sec": 41.2,
+        "best_epoch": 10,
+        "best_val_rmse": 11.61,
+        "test_mae": 10.21,
+        "test_rmse": 13.5,
+        "test_r2": 0.8865,
+        "nasa_score": 368.6
     },
     "cnn1d_FD001": {
         "model_type": "cnn1d",
@@ -16,10 +19,13 @@
         "window_size": 30,
         "max_rul": 125,
         "parameters": 41153,
-        "train_time_sec": 48.12,
-        "test_mae": 14.52,
-        "test_rmse": 19.37,
-        "test_r2": 0.7663
+        "train_time_sec": 60.6,
+        "best_epoch": 2,
+        "best_val_rmse": 18.78,
+        "test_mae": 14.32,
+        "test_rmse": 20.41,
+        "test_r2": 0.7407,
+        "nasa_score": 2215.1
     },
     "lstm_FD001": {
         "model_type": "lstm",
@@ -27,7 +33,7 @@
         "window_size": 30,
         "max_rul": 125,
         "parameters": 56129,
-        "train_time_sec": 71.93,
+        "train_time_sec": 186.85,
         "best_epoch": 17,
         "best_val_rmse": 11.78,
         "test_mae": 10.08,
@@ -41,9 +47,12 @@
         "window_size": 30,
         "max_rul": 125,
         "parameters": 70081,
-        "train_time_sec": 180.28,
-        "test_mae": 9.98,
-        "test_rmse": 13.6,
-        "test_r2": 0.8848
+        "train_time_sec": 398.09,
+        "best_epoch": 15,
+        "best_val_rmse": 11.94,
+        "test_mae": 10.21,
+        "test_rmse": 14.22,
+        "test_r2": 0.874,
+        "nasa_score": 416.4
     }
 }

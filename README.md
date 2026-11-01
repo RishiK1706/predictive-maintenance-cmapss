@@ -61,19 +61,20 @@ According to course guidelines (ICT-4442 Deep Learning Mini Project), each team 
 
 ## Benchmark Experimental Results (NASA C-MAPSS FD001 Test Set)
 
-All four model architectures were evaluated on identical test trajectories:
+All four model architectures were evaluated on identical test trajectories (100 unseen test engines, sequence window W = 30, 15 informative features, R_max = 125):
 
 | Model Architecture | Owner / Member | Test MAE | Test RMSE | Test R2 | NASA Score | Early Warning Macro F1 | Critical State F1 | Parameter Count | Train Time (s) |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **MLP Baseline** | Mayurika Sathish | **8.92** | **12.13** | **0.9083** | **267.4** | 0.8604 | 0.8387 | 157,569 | 50.2 s |
-| **Stacked LSTM** | Ishanvi Kaushik | 9.60 | 13.24 | 0.8908 | 334.2 | **0.8428** | **0.8667** | 58,241 | 64.4 s |
-| **Transformer Encoder** | Rishi Khandelwal | 10.21 | 14.00 | 0.8780 | 412.5 | 0.8150 | 0.8333 | 70,081 | 126.1 s |
-| **1D-CNN** | Sachith V P | 14.35 | 18.89 | 0.7778 | 1184.6 | 0.7960 | 0.7407 | **41,153** | 153.7 s |
+| **Stacked LSTM** | Ishanvi Kaushik | **10.08** | 13.65 | 0.8839 | **366.1** | 0.8262 | 0.7857 | 56,129 | 191.50 s |
+| **MLP Baseline** | Mayurika Sathish | 10.21 | **13.50** | **0.8865** | 368.6 | 0.8010 | 0.8000 | 157,569 | 71.99 s |
+| **Transformer Encoder** | Rishi Khandelwal | 10.21 | 14.22 | 0.8740 | 416.4 | 0.8299 | **0.8750** | 70,081 | 420.91 s |
+| **1D-CNN** | Sachith V P | 14.32 | 20.41 | 0.7407 | 2215.1 | **0.8501** | **0.8750** | **41,153** | **64.46 s** |
 
 ### Key Empirical Findings:
-1. **Best Operational Reliability**: **LSTM** achieved the highest Critical Failure Alert F1-Score (**0.8667**), demonstrating superior stability for sequential degradation trends without false alarms.
-2. **Best Regression Accuracy**: **MLP Baseline** achieved the lowest MAE (**8.92 cycles**) and highest R2 (**0.9083**), fitting flattened tabular windows effectively.
-3. **Parameter Efficiency**: **1D-CNN** required only **41,153 parameters** (3.8x fewer parameters than MLP), making it ideal for edge device deployment.
+1. **Best Prognostic Accuracy & Safety**: **Stacked LSTM** achieved the lowest Mean Absolute Error (**10.08 cycles**) and the lowest asymmetric NASA penalty score (**366.1**). Because NASA score penalizes late predictions exponentially, the LSTM's recurrent cell state proved most dependable at accumulating physical wear without dangerously overestimating engine life. Following an architectural optimization with a two-stage dense head (64 -> 32 -> 1), it reduced model size to **56,129 parameters** (64.4% smaller than the MLP).
+2. **Best Tabular Fit & Lowest RMSE**: **MLP Baseline** achieved the lowest RMSE (**13.50 cycles**) and highest R2 (**0.8865**), converging in **71.99 s**. On single-condition datasets such as FD001, a flattened 450-dimensional sequence window captures tabular degradation trends effectively, though requiring 157,569 parameters.
+3. **Critical State Detection**: **Transformer Encoder** and **1D-CNN** tied for the highest Critical Failure Alert F1-Score (**0.8750**), successfully identifying 14 out of 16 engines in the critical failure window (RUL <= 20 cycles). The Transformer provided global pairwise attention context across all 30 cycles, while the 1D-CNN acted as an edge detector for late-stage high-frequency sensor spikes.
+4. **Parameter & Compute Efficiency**: **1D-CNN** was the most compact and computationally lightweight network, requiring only **41,153 parameters** (3.8x fewer parameters than MLP) and training in just **64.46 s**, making it the best candidate for memory-constrained edge hardware.
 
 ---
 
